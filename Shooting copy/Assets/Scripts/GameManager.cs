@@ -36,8 +36,15 @@ public class GameManager : MonoBehaviour
             if (leastAttacks < 0)
             {
                 //leastAttacks = PlayerPrefs.GetInt(PREF_KEY_LEAST_ATTACKS, 100);
-                string fileContents = File.ReadAllText(FILE_PATH_LEAST_ATTACKS);
-                leastAttacks = Int32.Parse(fileContents);
+                if (File.Exists(FILE_PATH_LEAST_ATTACKS))
+                {
+                    string fileContents = File.ReadAllText(FILE_PATH_LEAST_ATTACKS);
+                    leastAttacks = Int32.Parse(fileContents);
+                }
+                else
+                {
+                    leastAttacks = 100;
+                }
             }
             return leastAttacks;
         }
