@@ -16,14 +16,26 @@ public class GameManager : MonoBehaviour
     private int attacks = 0;
 
     private const string FILE_LEAST_ATTACKS = "/Logs/leastAttacks.txt";
+    private const string FILE_ALL_ATTACKS = "/Logs/allAttacks.csv";
     string FILE_PATH_LEAST_ATTACKS;
+    string FILE_PATH_ALL_ATTACKS;
     
     private const string PREF_KEY_LEAST_ATTACKS = "LeastAttacksKey";
 
     public int Attacks
     {
         get { return attacks; }
-        set { attacks = value; }
+        set
+        {
+            attacks = value;
+            if (!File.Exists(FILE_PATH_ALL_ATTACKS))
+            {
+                File.Create(FILE_PATH_ALL_ATTACKS);
+            }
+            string fileContents = File.ReadAllText(FILE_PATH_ALL_ATTACKS);
+            fileContents += attacks + ",";
+            File.WriteAllText(FILE_PATH_ALL_ATTACKS, fileContents);
+        }
 
     }
     
@@ -74,6 +86,7 @@ public class GameManager : MonoBehaviour
     {
         //PlayerPrefs.DeleteAll();
         FILE_PATH_LEAST_ATTACKS = Application.dataPath + FILE_LEAST_ATTACKS;
+        FILE_PATH_ALL_ATTACKS = Application.dataPath + FILE_ALL_ATTACKS;
     }
 
     // Update is called once per frame
